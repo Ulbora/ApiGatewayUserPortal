@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+    {{template "navbar" .}}
+    <div class="side-menu">
+        <div class="ui vertical menu">           
+            <a class="item" href="/oauth2">
+                Security
+            </a>
+            <a class="{{.GwSideMenu.GWActive}} item" href="/gateway">
+                ApiGateway
+            </a>
+            <a class="{{.GwSideMenu.GWClientActive}}  item" href="/gatewayClient">
+                -- Gateway Client
+            </a>
+            <a class="{{.GwSideMenu.RouteActive}} item" href="/gatewayRoutes">
+                -- Routes
+            </a>
+            <a class="{{.GwSideMenu.RouteURLsActive}} item" href="/gatewayRouteUrls">
+                -- Route Mapping
+            </a>
+            <a class="{{.GwSideMenu.EditRoute}} item" href="/gatewayRouteUrlsPermformance/{{.GatewayRoute.ID}}">
+                --> {{.GatewayRoute.Route}}
+            </a>
+        </div>
+    </div>
+    <div class="client-edit-form">
+        <form class="ui form">
+            <h4 class="ui dividing header">Client Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="{{.Client.Name}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>ClientID</label>
+                        <input type="text" value="{{.Client.ClientID}}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Route</label>
+                <input style="background: lightgreen;" type="text" value="{{.GatewayRoute.Route}}" disabled>
+            </div>
+        </form>
+        <div class="client-table">
+            <h4 class="ui dividing header">Gateway Route URL Performance</h4>
+            <table class="ui selectable celled table">
+                <thead>
+                    <tr>
+                        <th>URL Name</th>
+                        <th>URL</th>
+                        <th>Active</th>
+                        <th>Average Latency</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .GatewayRouteURLsDisp}}
+                    <tr onclick="window.location.href='/viewPerformanceByDate/{{.ID}}/{{.RouteID}}'">
+                        <td data-inverted="" data-tooltip="Click to view performance by date" data-position="bottom left">{{.Name}}</td>
+                        <td data-inverted="" data-tooltip="Click to view performance by date" data-position="bottom left">{{.URL}}</td>
+                        {{if .Active}}
+                        <td data-inverted="" data-tooltip="Click to view performance by date" data-position="bottom left" class="positive">
+                            Active
+                        </td>
+                        {{else}}
+                        <td data-inverted="" data-tooltip="Click to view performance by date" data-position="bottom left">  
+                        </td>
+                        {{end}}
+                        {{if eq .AverageLatency 0.0}}
+                        <td data-inverted="" data-tooltip="Click to view performance by date" data-position="bottom left">No Calls</td>
+                        {{else}}
+                        <td data-inverted="" data-tooltip="Click to view performance by date" data-position="bottom left">{{.AverageLatency}} milliseconds</td>
+                        {{end}}
+
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

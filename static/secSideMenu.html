@@ -1,0 +1,27 @@
+{{define "secSideMenu"}}
+<div class="side-menu">
+    <div class="ui vertical menu">       
+        <a class="{{.SecSideMenu.ClientActive}}  item" href="/oauth2">
+            Security
+        </a>
+        <a class="{{.SecSideMenu.RedirectURLActive}} item" href="/clientRedirectUrls">
+            -- Redirect URLs
+        </a>
+        <a class="{{.SecSideMenu.GrantTypeActive}} item" href="/clientGrantTypes">
+            -- Grant Types
+        </a>
+        <a class="{{.SecSideMenu.RolesActive}} item" href="/clientRoles">
+            -- Roles
+        </a>
+        <a class="{{.SecSideMenu.AllowedURIActive}} item" href="/clientAllowedUris">
+            -- Allowed URLs
+        </a>       
+        <a class="{{.SecSideMenu.UsersActive}} item" href="/users">
+            -- Users
+        </a>
+        <a class="item" href="/gateway">
+            ApiGateway
+        </a>
+    </div>
+</div>
+{{end}}

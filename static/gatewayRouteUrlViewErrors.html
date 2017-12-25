@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+    {{template "navbar" .}}
+    <div class="side-menu">
+        <div class="ui vertical menu">            
+            <a class="item" href="/oauth2">
+                Security
+            </a>
+            <a class="{{.GwSideMenu.GWActive}} item" href="/gateway">
+                ApiGateway
+            </a>
+            <a class="{{.GwSideMenu.GWClientActive}}  item" href="/gatewayClient">
+                -- Gateway Client
+            </a>
+            <a class="{{.GwSideMenu.RouteActive}} item" href="/gatewayRoutes">
+                -- Routes
+            </a>
+            <a class="{{.GwSideMenu.RouteURLsActive}} item" href="/gatewayRouteUrls">
+                -- Route Mapping
+            </a>
+            <a class="{{.GwSideMenu.EditRoute}} item" href="/gatewayRouteUrlsErrors/{{.GatewayRoute.ID}}">
+                --> {{.GatewayRoute.Route}}
+            </a>
+            <a class="{{.GwSideMenu.EditURL}} item" href="/viewErrors/{{.GatewayRouteURLDisp.ID}}/{{.GatewayRoute.ID}}">
+                ---> {{.GatewayRouteURLDisp.Name}}
+            </a>
+        </div>
+    </div>
+    <div class="client-edit-form">
+        <form class="ui form">
+            <h4 class="ui dividing header">Client Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="{{.Client.Name}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>ClientID</label>
+                        <input type="text" value="{{.Client.ClientID}}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Route</label>
+                <input type="text" value="{{.GatewayRoute.Route}}" disabled>
+            </div>
+            <div class="field">
+                <label>URL Name</label>
+                <input style="background: lightgreen;" type="text" value="{{.GatewayRouteURLDisp.Name}}" disabled>
+            </div>
+            <div class="field">
+                <label>URL</label>
+                <input style="background: lightgreen;" type="text" value="{{.GatewayRouteURLDisp.URL}}" disabled>
+            </div>
+        </form>
+        <div class="client-table">
+            <h4 class="ui dividing header">Gateway Route URL Errors</h4>
+            <table class="ui selectable celled table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Error Code</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .Errors}}
+                    <tr>
+                        <td>{{.Entered}}</td>
+                        <td>{{.Code}}</td>
+                        <td>{{.Message}}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+            {{if gt .ErrorPages 1}}
+            <div class="ui pagination menu">
+                {{range .ErrorPageRange}}                     
+                    {{if eq .Pg $.ErrorPageCurrent}}
+                        <a class="active item" href="/viewErrors/{{$.GatewayRouteURLDisp.ID}}/{{$.GatewayRoute.ID}}/{{.Pg}}">
+                            {{.Pg}}
+                        </a>
+                    {{else}}
+                        <a class="item" href="/viewErrors/{{$.GatewayRouteURLDisp.ID}}/{{$.GatewayRoute.ID}}/{{.Pg}}">
+                            {{.Pg}}
+                        </a>
+                    {{end}}
+                {{end}}
+            </div>
+            {{end}}
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+</body>
+
+</html>

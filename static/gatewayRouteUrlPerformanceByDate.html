@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "headerChart"}}
+
+<body onload="setTicks({{.ChartDate.Month}}, {{.ChartDate.Year}}), setChartData({{.ChartData}});">
+    {{template "navbar" .}}
+    <div class="side-menu">
+        <div class="ui vertical menu">            
+            <a class="item" href="/oauth2">
+                Security
+            </a>
+            <a class="{{.GwSideMenu.GWActive}} item" href="/gateway">
+                ApiGateway
+            </a>
+            <a class="{{.GwSideMenu.GWClientActive}}  item" href="/gatewayClient">
+                -- Gateway Client
+            </a>
+            <a class="{{.GwSideMenu.RouteActive}} item" href="/gatewayRoutes">
+                -- Routes
+            </a>
+            <a class="{{.GwSideMenu.RouteURLsActive}} item" href="/gatewayRouteUrls">
+                -- Route Mapping
+            </a>
+            <a class="{{.GwSideMenu.EditRoute}} item" href="/gatewayRouteUrlsPermformance/{{.GatewayRoute.ID}}">
+                --> {{.GatewayRoute.Route}}
+            </a>
+            <a class="{{.GwSideMenu.EditURL}} item" href="/viewPerformanceByDate/{{.GatewayRouteURLDisp.ID}}/{{.GatewayRoute.ID}}">
+                ---> {{.GatewayRouteURLDisp.Name}}
+            </a>
+        </div>
+    </div>
+    <div class="client-edit-form">
+        <form class="ui form">
+            <h4 class="ui dividing header">Client Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="{{.Client.Name}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>ClientID</label>
+                        <input type="text" value="{{.Client.ClientID}}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Route</label>
+                <input type="text" value="{{.GatewayRoute.Route}}" disabled>
+            </div>
+            <div class="field">
+                <label>URL Name</label>
+                <input style="background: lightgreen;" type="text" value="{{.GatewayRouteURLDisp.Name}}" disabled>
+            </div>
+            <div class="field">
+                <label>URL</label>
+                <input style="background: lightgreen;" type="text" value="{{.GatewayRouteURLDisp.URL}}" disabled>
+            </div>
+        </form>
+        <div class="client-table">
+            <h4 class="ui dividing header">Gateway Route URL Performance</h4>            
+            <div id="chart_div"></div>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+</body>
+
+</html>

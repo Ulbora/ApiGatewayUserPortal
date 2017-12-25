@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+    {{template "navbar" .}}
+    <div class="side-menu">
+        <div class="ui vertical menu">            
+            <a class="item" href="/oauth2">
+                Security
+            </a>
+            <a class="{{.GwSideMenu.GWActive}} item" href="/gateway">
+                ApiGateway
+            </a>
+            <a class="{{.GwSideMenu.GWClientActive}}  item" href="/gatewayClient">
+                -- Gateway Client
+            </a>
+            <a class="{{.GwSideMenu.RouteActive}} item" href="/gatewayRoutes">
+                -- Routes
+            </a>
+            <a class="{{.GwSideMenu.RouteURLsActive}} item" href="/gatewayRouteUrls">
+                -- Route Mapping
+            </a>
+            <a class="{{.GwSideMenu.EditRoute}} item" href="/gatewayRouteUrlsByRoute/{{.GatewayRoute.ID}}">
+                --> {{.GatewayRoute.Route}}
+            </a>
+            <a class="{{.GwSideMenu.EditURL}} item" href="/editGatewayRouteUrl/{{.GatewayRouteURI.ID}}/{{.GatewayRoute.ID}}">
+                ---> {{.GatewayRouteURI.Name}}
+            </a>
+        </div>
+    </div>
+    <div class="client-edit-form">
+        <form class="ui form">
+            <h4 class="ui dividing header">Route URL Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Client Name</label>
+                        <input type="text" value="{{.Client.Name}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>ClientID</label>
+                        <input type="text" value="{{.Client.ClientID}}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Route Name</label>
+                <input type="text" value="{{.GatewayRoute.Route}}" disabled>
+            </div>
+        </form>
+        <div class="add-inner-form">
+            <form method="POST" class="ui form" action="/updateGatewayRouteUrl">
+                <div class="field">
+                    <label>URL Name</label>
+                    <input style="background: lightgreen;" type="text" name="name" value="{{.GatewayRouteURI.Name}}" required>
+                </div>
+                <div class="field">
+                    <label>URL</label>
+                    <input type="text" name="gwUrl" value="{{.GatewayRouteURI.URL}}" required>
+                </div>
+
+
+                <div class="grouped fields">
+                    <label for="enabled">Circuit Breaker:</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            {{if .CircuitBreakerEnabled}}
+                            <input onchange="showCircuitBreaker(false);" type="radio" name="cbEnabled" checked="" tabindex="0" class="hidden"
+                                value="on">
+                            <label>On</label>
+                            {{else}}
+                            <input onchange="showCircuitBreaker(false);" type="radio" name="cbEnabled" tabindex="0" class="hidden"
+                                value="on">
+                            <label>On</label>
+                            {{end}}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            {{if .CircuitBreakerEnabled}}
+                            <input onchange="showCircuitBreaker(true);" type="radio" name="cbEnabled" tabindex="0" class="hidden"
+                                value="off">
+                            <label>Off</label>
+                            {{else}}
+                            <input onchange="showCircuitBreaker(false);" type="radio" name="cbEnabled" checked="" tabindex="0" class="hidden"
+                                value="off">
+                            <label>Off</label>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+                {{if .CircuitBreakerEnabled}}
+                <div id="cb" style="display: block">
+                    <input type="hidden" name="cbId" value="{{.CircuitBreaker.ID}}">
+                    <div class="field" data-inverted="" data-tooltip="Number of times service call can fail before breaker opens" data-position="bottom left">
+                        <label>Failure Threshold</label>
+                        <input type="number" name="failureThreshold" value="{{.CircuitBreaker.FailureThreshold}}">
+                    </div>
+                    <div class="field" data-inverted="" data-tooltip="Number seconds before service call retries after breaker opens" data-position="bottom left">
+                        <label>HealthCheck Time in Seconds</label>
+                        <input type="number" name="healthCheckTimeSeconds" value="{{.CircuitBreaker.HealthCheckTimeSeconds}}">
+                    </div>
+                    <div class="field" data-inverted="" data-tooltip="HTTP code to return when breaker is open" data-position="bottom left">
+                        <label>Open Fail Code</label>
+                        <input type="number" name="openFailCode" value="{{.CircuitBreaker.OpenFailCode}}">
+                    </div>
+                    <div class="field" data-inverted="" data-tooltip="Failover route when breaker opens" data-position="bottom left">
+                        <label>Failover Route Name</label>
+                        <input type="text" name="failoverRouteName" value="{{.CircuitBreaker.FailoverRouteName}}" >
+                    </div>
+                </div>
+                {{else}}
+                <div id="cb" style="display: none">
+                    <div class="field" data-inverted="" data-tooltip="Number of times service call can fail before breaker opens" data-position="bottom left">
+                        <label>Failure Threshold</label>
+                        <input type="number" name="failureThreshold" value="3">
+                    </div>
+                    <div class="field" data-inverted="" data-tooltip="Number seconds before service call retries after breaker opens" data-position="bottom left">
+                        <label>HealthCheck Time in Seconds</label>
+                        <input type="number" name="healthCheckTimeSeconds" value="120">
+                    </div>
+                    <div class="field" data-inverted="" data-tooltip="HTTP code to return when breaker is open" data-position="bottom left">
+                        <label>Open Fail Code</label>
+                        <input type="number" name="openFailCode" value="500">
+                    </div>
+                    <div class="field" data-inverted="" data-tooltip="Failover route when breaker opens" data-position="bottom left">
+                        <label>Failover Route Name</label>
+                        <input type="text" name="failoverRouteName" placeholder="blue" >
+                    </div>
+                </div>
+                {{end}}
+                <input type="hidden" name="id" value="{{.GatewayRouteURI.ID}}">
+                <input type="hidden" name="routeId" value="{{.GatewayRoute.ID}}">                
+                <br/>
+                <button class="ui button" type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            <p id="hd">Delete this URL?</p>
+        </div>
+        <div class="content">
+            <p id="cont">Delete this URL?</p>
+
+        </div>
+        <div id="del" style="display: none;" class="actions">
+            <div class="ui black cancel button">Cancel</div>
+            <div onclick="location.href='/deleteGatewayRouteUrl/'+getGwRouteUrlId()+ '/'  + {{.GatewayRoute.ID}};"
+                class="ui negative button">Delete</div>
+        </div>
+
+        <div id="act" style="display: none;" class="actions">
+            <div class="ui negative button">No</div>
+            <div onclick="location.href='/activateGatewayRouteUrl/'+getGwRouteUrlId2()+ '/'  + {{.GatewayRoute.ID}};"
+                class="ui positive button">Yes</div>
+        </div>
+    </div>
+
+</body>
+
+</html>

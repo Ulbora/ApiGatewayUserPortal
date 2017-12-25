@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+    {{template "navbar" .}} {{template "gwSideMenu" .}}
+    <div class="client-edit-form">
+        <form class="ui form">
+            <h4 class="ui dividing header">Client Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="{{.Client.Name}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>ClientID</label>
+                        <input type="text" value="{{.Client.ClientID}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="client-table">
+            <table class="ui selectable celled table">
+                <thead>
+                    <tr>
+                        <th>Gateway Route</th>
+                        <th>Status</th>
+                        <th>Performance</th>
+                        <th>Errors</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .GatewayRoutes}}
+                    <tr>
+                        <td onclick="window.location.href='/gatewayRouteUrlsByRoute/{{.ID}}'" data-inverted="" data-tooltip="Click to edit URLs for route"
+                            data-position="bottom left">{{.Route}}</td>
+
+                        <td onclick="window.location.href='/gatewayRouteUrlsStatus/{{.ID}}'" data-inverted="" data-tooltip="Click for status of route URLs"
+                            data-position="bottom left">
+                            <i class="large heartbeat icon"></i>
+                        </td>
+
+
+                        <td onclick="window.location.href='/gatewayRouteUrlsPermformance/{{.ID}}'" data-inverted="" data-tooltip="Click to view performance of route URLs"
+                            data-position="bottom left">
+                            <i class="large bar chart icon"></i>
+                        </td>
+
+
+                        <td onclick="window.location.href='/gatewayRouteUrlsErrors/{{.ID}}'" data-inverted="" data-tooltip="Click to view errors on route URLs"
+                            data-position="bottom left">
+                            <i class="large warning sign icon"></i>
+                        </td>
+                    </tr>
+
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

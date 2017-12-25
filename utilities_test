@@ -1,0 +1,12 @@
+package main
+
+import "testing"
+import "fmt"
+
+func Test_generateTokenKey(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		var key = generateTokenKey()
+		fmt.Println(key)
+	}
+
+}

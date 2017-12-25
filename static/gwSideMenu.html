@@ -1,0 +1,22 @@
+{{define "gwSideMenu"}}
+<div class="side-menu">
+    <div class="ui vertical menu">        
+        <a class="item" href="/oauth2">
+            Security
+        </a>
+        <a class="{{.GwSideMenu.GWActive}} item" href="/gateway">
+            ApiGateway
+        </a>
+        <a class="{{.GwSideMenu.GWClientActive}}  item" href="/gatewayClient">
+            -- Gateway Client
+        </a>
+        <a class="{{.GwSideMenu.RouteActive}} item" href="/gatewayRoutes">
+            -- Routes
+        </a>
+        <a class="{{.GwSideMenu.RouteURLsActive}} item" href="/gatewayRouteUrls">
+            -- Route Mapping
+        </a>       
+       
+    </div>
+</div>
+{{end}}

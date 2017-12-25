@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+  <div class="login-form">
+    <form method="POST" class="ui form" action="/loginUser">
+      <h2 class="ui dividing header">Enter Client ID</h2>
+           <div class="field">
+        <label>Client ID</label>
+        <input type="text" name="clientId" required>
+      </div>
+      <button class="ui button" type="submit">Login</button>
+    </form>
+  </div>
+</body>
+</html>

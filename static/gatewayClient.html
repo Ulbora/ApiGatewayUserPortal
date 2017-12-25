@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+    {{template "navbar" .}} {{template "gwSideMenu" .}}
+    <div class="client-edit-form">
+        <form class="ui form">
+            <h4 class="ui dividing header">Client Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="{{.Client.Name}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>ClientID</label>
+                        <input type="text" value="{{.Client.ClientID}}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Client Secret</label>
+                <input type="text" value="{{.Client.Secret}}" disabled>
+            </div>
+        </form>
+        {{if eq .GatewayClient.ClientID 0}}
+        <div id="addGatewayAccountMsg" class="add-inner-form">
+            <div class="ui yellow message">Client does not have an API Gateway account!</div>            
+        </div> 
+        {{else}}
+        <div class="add-inner-form">
+            <form method="POST" class="ui form"> 
+                <div class="field">
+                    <label>API Key</label>
+                    <input type="text" value="{{.GatewayClient.APIKey}}" disabled>
+                    <input type="hidden" name="apiKey" value="{{.GatewayClient.APIKey}}">
+                </div>
+                <div class="grouped fields">
+                    <label for="enabled">API Gateway Enabled:</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            {{if .GatewayClient.Enabled}}
+                            <input disabled type="radio" name="enabled" checked="" tabindex="0" class="hidden" value="yes">
+                            <label>Yes</label>
+                            {{else}}
+                            <input disabled type="radio" name="enabled" tabindex="0" class="hidden" value="yes">
+                            <label>Yes</label>
+                            {{end}}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            {{if .GatewayClient.Enabled}}
+                            <input disabled type="radio" name="enabled" tabindex="0" class="hidden" value="no">
+                            <label>No</label>
+                            {{else}}
+                            <input disabled type="radio" name="enabled" checked="" tabindex="0" class="hidden" value="no">
+                            <label>No</label>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Level</label>
+                    <select disabled name="level" class="ui fluid dropdown">
+                        {{if eq .GatewayClient.Level "small" }}
+                        <option value="small" selected>Small</option>
+                        {{else}} 
+                        <option value="small">Small</option>
+                        {{end}}
+
+                        {{if eq .GatewayClient.Level "medium" }}
+                        <option value="medium" selected>Medium</option>
+                        {{else}}
+                        <option value="medium">Medium</option>
+                        {{end}}
+
+                        {{if eq .GatewayClient.Level "large" }}
+                        <option value="large" selected>Large</option>
+                        {{else}}
+                        <option value="large">Large</option>
+                        {{end}}                       
+                    </select>
+                </div> 
+            </form>
+        </div>
+        {{end}}        
+    </div>
+</body>
+
+</html>
