@@ -102,7 +102,7 @@ func handleImplicitLogin(w http.ResponseWriter, r *http.Request) {
 
 		var a oauth2.ImplicitAuthorize
 		a.ClientID = clientID
-		a.OauthHost = getOauthHost()
+		a.OauthHost = getOauthRedirectHost()
 		a.RedirectURI = getRedirectURI(r, implicitRedirectURI)
 		a.Scope = "write"
 		a.State = authCodeState

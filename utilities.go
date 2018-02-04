@@ -84,6 +84,16 @@ func getOauthHost() string {
 	return rtn
 }
 
+func getOauthRedirectHost() string {
+	var rtn = ""
+	if os.Getenv("AUTH_REDIRECT_HOST") != "" {
+		rtn = os.Getenv("AUTH_REDIRECT_HOST")
+	} else {
+		rtn = "http://localhost:3000"
+	}
+	return rtn
+}
+
 func getGatewayHost() string {
 	var rtn = ""
 	if os.Getenv("GATEWAY_HOST") != "" {
