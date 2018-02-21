@@ -1,3 +1,5 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/Ulbora/ApiGatewayUserPortal)](https://goreportcard.com/report/github.com/Ulbora/ApiGatewayUserPortal)
+
 MyApiGateway User Portal
 ==============
 
